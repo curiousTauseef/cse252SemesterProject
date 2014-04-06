@@ -1,0 +1,12 @@
+@charset "UTF-8";
+/* CSS Document */
+
+.calendar {
+	width: 70%;
+	border: 1px dotted black;
+	height: 100px;
+}
+
+form{
+	
+	background-color:#F8F8F8;}
