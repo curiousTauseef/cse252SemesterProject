@@ -1,6 +1,10 @@
 @charset "UTF-8";
 /* CSS Document */
 
+h3{
+	text-align:center;
+}
+
 .calendar {
 
 }
