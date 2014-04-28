@@ -1,3 +1,26 @@
+<?php 
+require 'db.php';
+require 'passwordhash.php';
+session_save_path(dirname(__FILE__) . '/sessions');
+session_start();
+
+if (isset($_GET['logout'])) {
+    //logout request; destroy the session
+    logout();
+}
+
+function logout() {
+    $_SESSION = array();
+    $params = session_get_cookie_params();
+    setcookie(session_name(), '', time() - 42000,
+        $params["path"], $params["domain"],
+        $params["secure"], $params["httponly"]
+    );
+    session_destroy();
+	header('Location: http://www.users.miamioh.edu/poncelsc/cse252/semester2project');
+}
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -22,7 +45,7 @@
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li><a href="#">My Account</a></li>
-        <li><a href="#">Sign out</a></li>
+        <li><a href="?logout">Sign out</a></li>
       </ul>
     </div>
   </nav>
@@ -70,12 +93,12 @@
         <div class="form-group">
           <div class="calendar center-block">
 			  <div class="row">
-				  <div class="col-md-6">
+				  <div class="col-md-8">
             <label for="Date1">Preferred Date 1 : </label><input name="Date1" type="text" class="datepicker"><label for="Time1">Start Time : </label><input type="text" name="Time1" class="timepicker"><br/>
 			 <label for="Date2">Preferred Date 2 : </label><input name="Date2" type="text" class="datepicker"><label for="Time2">Start Time : </label><input type="text" name="Time2" class="timepicker"><br/	>
 			  <label for="Date3">Preferred Date 3 : </label><input name="Date3" type="text" class="datepicker"><label for="Time3">Start Time : </label><input type="text" name="Time3" class="timepicker">
 		  		</div>
-		  <div class="col-md-6"><h4><span class=" label label-warning">Please note that requests need to be made 14 days in advance.</span></h4>
+		  <div class="col-md-4" ><h4 class="bg-warning">Please note that requests need to be made 14 days in advance.</h4>
 
 		  </div>
           </div>

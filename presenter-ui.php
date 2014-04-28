@@ -1,3 +1,26 @@
+<?php 
+require 'db.php';
+require 'passwordhash.php';
+session_save_path(dirname(__FILE__) . '/sessions');
+session_start();
+
+if (isset($_GET['logout'])) {
+    //logout request; destroy the session
+    logout();
+}
+
+function logout() {
+    $_SESSION = array();
+    $params = session_get_cookie_params();
+    setcookie(session_name(), '', time() - 42000,
+        $params["path"], $params["domain"],
+        $params["secure"], $params["httponly"]
+    );
+    session_destroy();
+	header('Location: http://www.users.miamioh.edu/poncelsc/cse252/semester2project');
+}
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -21,7 +44,7 @@
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li><a href="#">My Account</a></li>
-        <li><a href="#">Sign out</a></li>
+        <li><a href="?logout">Sign out</a></li>
       </ul>
     </div>
   </nav>

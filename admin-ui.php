@@ -1,3 +1,39 @@
+<?php 
+require 'db.php';
+require 'passwordhash.php';
+session_save_path(dirname(__FILE__) . '/sessions');
+session_start();
+
+if (isset($_GET['logout'])) {
+    //logout request; destroy the session
+    logout();
+}
+
+function logout() {
+    $_SESSION = array();
+    $params = session_get_cookie_params();
+    setcookie(session_name(), '', time() - 42000,
+        $params["path"], $params["domain"],
+        $params["secure"], $params["httponly"]
+    );
+    session_destroy();
+	header('Location: http://www.users.miamioh.edu/poncelsc/cse252/semester2project');
+}
+
+$admin_nav =<<< EOD
+<ul class="nav navbar-nav navbar-left">
+        <li class="active"><a href="#">Program Management</a></li>
+      </ul>
+         <ul class="nav navbar-nav navbar-left">
+        <li ><a href="profile.php">User Management</a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="#">My Account</a></li>
+        <li><a href="?logout">Sign out</a></li>
+      </ul>
+EOD;
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,16 +52,7 @@
 <div class="container">
   <nav class="navbar navbar-default navbar-inverse" role="navigation">
     <div class="container-fluid">
-      <ul class="nav navbar-nav navbar-left">
-        <li class="active"><a href="#">Program Management</a></li>
-      </ul>
-         <ul class="nav navbar-nav navbar-left">
-        <li ><a href="#">User Management</a></li>
-      </ul>
-      <ul class="nav navbar-nav navbar-right">
-        <li><a href="#">My Account</a></li>
-        <li><a href="#">Sign out</a></li>
-      </ul>
+     <?= $admin_nav?>
     </div>
   </nav>
   
