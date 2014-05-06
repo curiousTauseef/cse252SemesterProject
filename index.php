@@ -107,7 +107,7 @@ if(isset($_POST['register'])) {
         //the login was successful; show the secret infos
         $_SESSION['auth'] = TRUE;
 		//load database data into SESSION
-		 $query = "SELECT firstName, lastName, typeID
+		 $query = "SELECT firstName, lastName, typeID, userID, position, email
               FROM user
               WHERE email ='${_POST['email']}'";
 
@@ -118,14 +118,17 @@ if(isset($_POST['register'])) {
 	$row = mysql_fetch_assoc($result);
     $_SESSION['firstName'] = $row['firstName'];
 	$_SESSION['lastName'] = $row['lastName'];
+    $_SESSION['position'] = $row['position'];
+    $_SESSION['email'] = $row['email'];
 	$_SESSION['typeID'] = $row['typeID'];
+	$_SESSION['userID'] = $row['userID'];
 	if($_SESSION['typeID']==2){
-	header('Location: http://www.users.miamioh.edu/poncelsc/cse252/semester2project/request-program.php');
-	}else if($_SESSION['typeID']==1){
+	   header('Location: http://www.users.miamioh.edu/poncelsc/cse252/semester2project/request-program.php');
+	} else if($_SESSION['typeID']==1) {
 		header('Location: http://www.users.miamioh.edu/poncelsc/cse252/semester2project/admin-ui.php');
-		}else{
-			header('Location: http://www.users.miamioh.edu/poncelsc/cse252/semester2project/presenter-ui.php');
-			}
+	} else {
+		header('Location: http://www.users.miamioh.edu/poncelsc/cse252/semester2project/presenter-ui.php');
+	}
 exit;
 	
 	//The content to display when there is an actively authenticate session
@@ -141,7 +144,16 @@ EOD;
         //the login failed; reshow the login form
         $area .= $loginError . $loginForm;
     }
-} else if (isset($_GET['logout'])) {
+}
+    else if($_SESSION['typeID']==2){
+       header('Location: http://www.users.miamioh.edu/poncelsc/cse252/semester2project/request-program.php');
+    } else if($_SESSION['typeID']==1) {
+        header('Location: http://www.users.miamioh.edu/poncelsc/cse252/semester2project/admin-ui.php');
+    } else if($_SESSION['typeID']==3) {
+        header('Location: http://www.users.miamioh.edu/poncelsc/cse252/semester2project/presenter-ui.php');
+    }
+
+ else if (isset($_GET['logout'])) {
     //logout request; destroy the session
     logout();
     $area .= $loginForm;

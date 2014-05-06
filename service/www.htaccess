@@ -1,0 +1,4 @@
+RewriteEngine on
+RewriteRule server\.php - [L]
+RewriteRule .* poncelsc/cse252/semester2project/service/server.php
+
