@@ -47,7 +47,9 @@ if (isset($_POST['editUser'])) {
 	 if(isset($_POST['update'])) {
      $A=TRUE;
 
-	
+	 if($_SESSION['typeID']!=1){
+		 changeUser();
+		 }
             if($_SESSION['changeFirstName'] != $_POST['firstName']) {
                 $user_update_query = sprintf("UPDATE user
                                     SET firstName = '%s'
@@ -303,8 +305,10 @@ EOD;
             <input type="text" class="form-control" id="position" placeholder="e.g. Resident Assistant" name="position" value = "<?php if ($position == NULL && $_SESSION['typeID'] !=1) {echo $_SESSION['position'];} else {echo $position;}  ?>">
           </div>
       <div class="form-group">
-        <label for="email">Email address</label> <input type="email" class="form-control" id="email" placeholder="Enter Email" name="email" value = "<?php if ($email == NULL && $_SESSION['typeID'] !=1) {echo $_SESSION['email'];} else {echo $email;}  ?>">  
+        <label for="email">Email address</label> <input type="email" class="form-control" id="email" placeholder="Enter Email" name="email" value = "<?php if ($email == NULL && $_SESSION['typeID'] !=1) {echo $_SESSION['email'];} else {echo $email;}  ?>">
+        <input type = 'hidden' value ="<?php if ($_SESSION['typeID'] !=1) {echo $_SESSION['userID'];} ?>" name = 'uid'>  
       </div>
+      
       
       <? if(!isset($_POST['editUser'])||$_SESSION['userID']==$_SESSION['changeUserId']){
 		  
@@ -319,7 +323,7 @@ EOD;
         </div>";}?>
         
         
-<? if(isset($_POST['uid'])) {
+<? if(isset($_POST['uid'])&&$_SESSION['typeID']==1) {
 	echo "<input class='btn btn-info' type='submit' name='update' value='Save my details'>";} ?>
   <? if($_SESSION['typeID']!=1) {
   echo "<input class='btn btn-info' type='submit' name='update' value='Save my details'>";} ?>

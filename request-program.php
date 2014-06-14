@@ -100,7 +100,6 @@ if (isset($_GET['logout'])) {
 
 
 function createRequest($topic, $date1, $date2, $date3, $time1, $time2, $time3, $goals, $location, $audience,$account) {
-	$p=105;
  $query = sprintf("INSERT INTO `chaudha`.`requests` (`topicRequest`, `goals`, `location`, `targetAudience`, `accountNumber`, `requestorID`) VALUES ('%s', '%s', '%s', '%s', '%s', '${_SESSION['userID']}')", mysql_real_escape_string($topic), mysql_real_escape_string($goals),mysql_real_escape_string($location), mysql_real_escape_string($audience),mysql_real_escape_string($account));
 
   mysql_query($query);
@@ -187,8 +186,8 @@ function logout() {
   <?php
   $userI = $_SESSION['userID'];
       $query = $query = sprintf("SELECT requests.requestorID, requests.timestamp, requests.location, requests.status, requests.timeID, prefTime.dateVal, prefTime.timeVal
-                FROM requests JOIN prefTime ON requests.timeID = prefTime.timeID
-                WHERE requests.requestorID = '%s'", mysql_real_escape_string($userI));
+                FROM requests, prefTime
+                WHERE requests.requestorID = '%s' && requests.timeID = prefTime.timeID", mysql_real_escape_string($userI));
       if(!$result = mysql_query($query)) {
         die("MySQL error: " . mysql_error());
     }
